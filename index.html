@@ -24,7 +24,7 @@
 
     /* ── Alternating section backgrounds ── */
     #hero      { background: #0f173d; }
-    #about     { background: #091034; }
+    #about     { background: linear-gradient(180deg, #04050c 0%, #0a0f2a 16%, #0d1330 100%); }
     #portfolio { background: #0f173d; }
     #social    { background: #091034; }
     #contact   { background: #0f173d; }
@@ -52,10 +52,11 @@
       justify-content: space-between;
       padding: 0 5vw;
       height: 72px;
-      background: rgba(15,23,61,0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--card-border);
+      background: rgba(13,19,47,0.35);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08);
     }
 
     .nav-logo {
@@ -176,13 +177,6 @@
       background-position: center;
       background-repeat: no-repeat;
     }
-    /* darken/blend the banner so hero copy stays legible */
-    .hero-bg::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(15,23,61,0.92) 0%, rgba(15,23,61,0.72) 38%, rgba(15,23,61,0.45) 100%);
-    }
     .hero-orb {
       position: absolute;
       border-radius: 50%;
@@ -236,12 +230,12 @@
     .hero-tag {
       display: inline-block;
       padding: 6px 16px;
-      border: 1px solid rgba(176,0,65,0.5);
+      border: 1px solid rgba(255,255,255,0.6);
       border-radius: 100px;
       font-size: 0.78rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(176,0,65,1);
+      color: #fff;
       margin-bottom: 24px;
       animation: fadeInUp 0.8s ease both;
     }
@@ -254,9 +248,9 @@
       animation: fadeInUp 0.8s 0.15s ease both;
     }
     .hero-title .grad {
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      background: none;
+      color: #a21648;
+      -webkit-text-fill-color: #a21648;
       background-clip: text;
     }
     .hero-subtitle {
@@ -369,10 +363,7 @@
       font-size: 0.78rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #a21648;
       margin-bottom: 12px;
       font-weight: 700;
     }
@@ -400,15 +391,16 @@
     /* ── ABOUT ── */
     .about-inner {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.9fr 0.85fr;
       gap: 80px;
-      align-items: start;
+      align-items: center;
     }
     .about-stats {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 24px;
       max-width: 380px;
+      margin-left: auto;
     }
     .stat-card {
       background: var(--card-bg);
@@ -437,7 +429,7 @@
       letter-spacing: 0.04em;
     }
     .about-text-block { display: flex; flex-direction: column; gap: 16px; }
-    .about-text-block p { font-size: 0.9rem; color: var(--light); line-height: 1.75; }
+    .about-text-block p { font-size: 1rem; color: var(--light); line-height: 1.8; }
 
     /* ── PORTFOLIO CATEGORIES ── */
     #portfolio { width: 100%; }
@@ -573,8 +565,31 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
+    .thumb-section {
+      grid-column: 1 / -1;
+      margin: 22px 0 2px;
+    }
+    .thumb-section:first-child { margin-top: 0; }
+    .thumb-section h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+    .thumb-section p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 640px;
+    }
+    .thumb-section .ts-rule {
+      height: 2px; width: 48px; margin-top: 12px;
+      background: linear-gradient(90deg, #ce2c74, #6b00ee);
+      border-radius: 2px;
+    }
     .thumb {
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 1 / 1;
       border-radius: 16px;
       border: 1px solid var(--card-border);
       background: var(--card-bg);
@@ -598,6 +613,13 @@
       width: 100%; height: 100%;
       object-fit: cover;
       position: relative; z-index: 1;
+      transform: scale(1);
+      transition: transform 0.45s cubic-bezier(.22,.68,0,1.2);
+      will-change: transform;
+    }
+    .thumb:hover img {
+      transform: scale(1.32) translate(var(--px,0px), var(--py,0px));
+      transition: transform 0.12s ease-out;
     }
     .thumb .thumb-ph {
       position: relative; z-index: 1;
@@ -617,7 +639,7 @@
     .thumb-multi svg { width: 17px; height: 17px; stroke: #fff; fill: none; stroke-width: 2.2; stroke-linecap: round; }
     .thumb:hover .thumb-multi { transform: scale(1.12) rotate(90deg); }
     .thumb:hover {
-      transform: translateY(-6px) scale(1.02);
+      transform: translateY(-6px);
       border-color: rgba(176,0,65,0.45);
       box-shadow: 0 20px 50px rgba(176,0,65,0.18);
     }
@@ -627,9 +649,9 @@
       position: absolute;
       left: 0; right: 0; bottom: 0;
       z-index: 2;
-      padding: 40px 16px 14px;
+      padding: 72px 16px 16px;
       display: flex; flex-direction: column; gap: 3px;
-      background: linear-gradient(to top, rgba(6,11,36,0.97) 0%, rgba(9,16,52,0.9) 34%, rgba(9,16,52,0.55) 66%, rgba(9,16,52,0) 100%);
+      background: linear-gradient(to top, rgba(6,11,36,0.99) 0%, rgba(6,11,36,0.97) 40%, rgba(9,16,52,0.85) 68%, rgba(9,16,52,0.35) 88%, rgba(9,16,52,0) 100%);
       opacity: 0;
       transform: translateY(8px);
       transition: opacity 0.3s, transform 0.3s;
@@ -649,6 +671,11 @@
     .lb-stage {
       position: relative; max-width: 960px; width: 100%;
       display: flex; flex-direction: column; align-items: center; gap: 18px;
+      max-height: 90vh; overflow-y: auto; overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+    .lb-stage.scrollable .lb-img {
+      max-height: none; width: 100%; object-fit: contain;
     }
     .lb-img {
       max-width: 100%; max-height: 74vh; object-fit: contain;
@@ -800,7 +827,21 @@
     }
 
     /* ── SOCIAL ── */
-    #social { text-align: center; }
+    #social { text-align: center; position: relative; overflow: hidden; }
+    .social-bg {
+      position: absolute;
+      top: 0; bottom: 0; left: 0;
+      width: 200%;
+      background: url('assets/connect-banner.jpg') repeat-x;
+      background-size: auto 100%;
+      animation: socialScroll 60s linear infinite;
+      z-index: 0;
+    }
+    @keyframes socialScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    #social > *:not(.social-bg) { position: relative; z-index: 1; }
     .social-links {
       display: flex;
       justify-content: center;
@@ -880,11 +921,9 @@
       font-size: 0.82rem;
       letter-spacing: 0.04em;
     }
+    footer p { color: #a21648; }
     footer .grad-text {
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #a21648;
       font-weight: 700;
     }
 
@@ -906,13 +945,109 @@
       .hero-content { flex-direction: column-reverse; gap: 40px; text-align: center; }
       .hero-ctas { justify-content: center; }
       .about-inner { grid-template-columns: 1fr; gap: 48px; }
-      .about-stats { order: -1; }
+      .about-stats { order: 1; margin: 0 auto; }
       .nav-links { display: none; }
     }
     @media (max-width: 600px) {
       .social-links { flex-direction: column; align-items: center; }
+      .social-link { width: 100%; max-width: 320px; justify-content: center; }
       .about-stats { grid-template-columns: 1fr; }
     }
+    /* ── ADD TILE + UPLOAD MODAL ── */
+    .thumb.add-tile {
+      cursor: pointer;
+      background: var(--card-bg);
+    }
+    .thumb.add-tile::before { opacity: 0.06; }
+    .thumb.add-tile .add-inner {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      color: var(--muted); letter-spacing: 0.05em; font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+    .thumb.add-tile .add-plus {
+      width: 62px; height: 62px; border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--grad); color: #fff;
+      box-shadow: 0 12px 34px rgba(176,0,65,0.45);
+      transition: transform 0.35s cubic-bezier(.22,.68,0,1.2);
+    }
+    .thumb.add-tile .add-plus svg { width: 28px; height: 28px; stroke: #fff; fill: none; stroke-width: 2.4; stroke-linecap: round; }
+    .thumb.add-tile:hover .add-plus { transform: scale(1.12) rotate(90deg); }
+    .thumb.add-tile:hover { border-color: rgba(176,0,65,0.5); box-shadow: 0 20px 50px rgba(176,0,65,0.2); }
+
+    .uploader {
+      position: fixed; inset: 0; z-index: 1100;
+      display: none; align-items: center; justify-content: center;
+      padding: 5vh 5vw;
+      background: rgba(6,11,36,0.88);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .uploader.open { display: flex; animation: panelIn 0.28s ease; }
+    .up-panel {
+      position: relative; width: 100%; max-width: 620px;
+      max-height: 90vh; overflow-y: auto;
+      background: #0d1540; border: 1px solid var(--card-border);
+      border-radius: 22px; padding: 34px;
+      box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+    }
+    .up-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+    .up-eyebrow { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .up-title { font-size: 1.5rem; font-weight: 700; color: #fff; }
+    .up-close {
+      flex: none; width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--card-border);
+      background: rgba(255,255,255,0.04); color: #fff; font-size: 1.4rem; line-height: 1; cursor: pointer;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .up-close:hover { background: rgba(176,0,65,0.25); border-color: rgba(176,0,65,0.5); }
+    .up-field { margin-bottom: 18px; }
+    .up-field label { display: block; font-size: 0.78rem; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; }
+    .up-field input[type="text"] {
+      width: 100%; padding: 13px 15px; border-radius: 12px;
+      border: 1px solid var(--card-border); background: rgba(255,255,255,0.03);
+      color: #fff; font-family: inherit; font-size: 0.95rem;
+      transition: border-color 0.25s;
+    }
+    .up-field input[type="text"]:focus { outline: none; border-color: rgba(176,0,65,0.6); }
+    .up-drop {
+      border: 1.5px dashed var(--card-border); border-radius: 16px;
+      padding: 30px 20px; text-align: center; cursor: pointer;
+      color: var(--muted); transition: border-color 0.25s, background 0.25s;
+    }
+    .up-drop:hover, .up-drop.drag { border-color: rgba(176,0,65,0.6); background: rgba(176,0,65,0.06); }
+    .up-drop svg { width: 34px; height: 34px; stroke: var(--accent); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 10px; }
+    .up-drop b { color: #fff; }
+    .up-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 16px;
+    }
+    .up-thumb {
+      position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
+    .up-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .up-thumb button {
+      position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 7px;
+      border: none; background: rgba(6,11,36,0.85); color: #fff; cursor: pointer; font-size: 0.9rem; line-height: 1;
+    }
+    .up-thumb button:hover { background: var(--accent); }
+    .up-actions { display: flex; gap: 12px; margin-top: 26px; }
+    .up-btn {
+      flex: 1; padding: 14px; border-radius: 12px; border: none; cursor: pointer;
+      font-family: inherit; font-size: 0.92rem; font-weight: 600; letter-spacing: 0.03em;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    .up-btn.primary { background: var(--grad); color: #fff; box-shadow: 0 12px 30px rgba(176,0,65,0.4); }
+    .up-btn.ghost { background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); color: var(--light); }
+    .up-btn:hover { transform: translateY(-2px); }
+    .up-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .up-note { font-size: 0.72rem; color: var(--muted); margin-top: 12px; text-align: center; }
+
+    .gal-video {
+      position: relative; width: 100%; aspect-ratio: 16 / 9;
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--card-border); background: #000;
+    }
+    .gal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
   </style>
 <link id="gfont-Montserrat" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap">
 </head>
@@ -951,10 +1086,11 @@
         <a href="#portfolio" data-cat="videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:0.6"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg> Videos</a>
         <a href="#portfolio" data-cat="paintings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:0.6"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7.5 20.5 2 22l1.5-5.5L16.5 3.5z"/></svg> Paintings</a>
         <a href="#portfolio" data-cat="sketching"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:0.6"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg> Sketching</a>
+        <a href="#portfolio" data-cat="college"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:0.6"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg> College Work</a>
       </div>
     </li>
     <li><a href="#social">Connect</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#social">Contact</a></li>
   </ul>
 </nav>
 
@@ -972,12 +1108,15 @@
         Crafting Visual<br><span class="grad">Experiences</span>
       </h1>
       <p class="hero-subtitle">
-        I turn ideas into compelling visual stories — from <br>logos and branding to motion and packaging. <br>Every pixel has a purpose.
+        I turn ideas into compelling visual stories <br>from logos and branding to motion and packaging. <br>Every pixel has a purpose.
       </p>
       <div class="hero-ctas">
         <a href="#portfolio" class="btn-primary">View Portfolio ↓</a>
-        <a href="#contact" class="btn-outline">Let's Talk</a>
+        <a href="#social" class="btn-outline">Let's Talk</a>
       </div>
+    </div>
+    <div class="hero-logo-wrap">
+      <img class="hero-logo" src="assets/dm-logo.png" alt="Deepak Musale MD monogram" />
     </div>
   </div>
   <div class="scroll-hint">
@@ -995,7 +1134,7 @@
       <p>Hi everyone, I'm <strong>Deepak Musale</strong> — Associate Director of our Creative team, and an artist and designer at heart. I hold a diploma in Commercial Art and bring over 20 years of experience in the design industry.</p>
       <p>Throughout my career, I've worked across a wide range of environments — advertising agencies, printing presses, IT companies, gaming studios, and even sports teams. Each brought a different perspective that continues to shape how I approach creative work today.</p>
       <p>Outside of work, I channel my passion into drawing and painting. I've also enjoyed teaching art, and I share my sketching work through my own creative projects online. Art isn't just my profession — it's what I return to for joy.</p>
-      <a href="#contact" class="btn-primary" style="align-self:flex-start;margin-top:8px;">Start a Project</a>
+      <a href="#social" class="btn-primary" style="align-self:flex-start;margin-top:8px;">Start a Project</a>
     </div>
     <div class="about-stats">
       <div class="stat-card">
@@ -1066,6 +1205,10 @@
         <span class="cat-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span>
         <span class="cat-tab-text"><span class="cat-tab-label">Sketching</span><span class="cat-tab-desc"></span></span>
       </button>
+      <button class="cat-tab" data-cat="college">
+        <span class="cat-icon-wrap"><svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg></span>
+        <span class="cat-tab-text"><span class="cat-tab-label">College Work</span><span class="cat-tab-desc"></span></span>
+      </button>
     </div>
 
     <!-- Right panel (75%) — thumbnails for selected category -->
@@ -1108,12 +1251,50 @@
       </div>
     </div>
   </div>
+
+  <!-- Add-event uploader -->
+  <div class="uploader" id="uploader">
+    <div class="up-panel">
+      <div class="up-head">
+        <div>
+          <div class="up-eyebrow" id="upEyebrow">Add to Portfolio</div>
+          <div class="up-title" id="upTitle">New Event</div>
+        </div>
+        <button class="up-close" id="upClose" aria-label="Close">×</button>
+      </div>
+      <div class="up-field">
+        <label for="upName">Title</label>
+        <input type="text" id="upName" placeholder="e.g. COBX Masters — Phase 3" />
+      </div>
+      <div class="up-field">
+        <label for="upType">Subtitle / Type</label>
+        <input type="text" id="upType" placeholder="e.g. Esports Event" />
+      </div>
+      <div class="up-field">
+        <label>Images</label>
+        <div class="up-drop" id="upDrop">
+          <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><path d="M20 16v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2"/></svg>
+          <div><b>Click to upload</b> or drag &amp; drop</div>
+          <div style="font-size:0.72rem;margin-top:4px;">First image becomes the cover · multiple allowed</div>
+        </div>
+        <input type="file" id="upFile" accept="image/*" multiple style="display:none;" />
+        <div class="up-grid" id="upGrid"></div>
+      </div>
+      <div class="up-actions">
+        <button class="up-btn ghost" id="upCancel">Cancel</button>
+        <button class="up-btn primary" id="upSave" disabled>Add to Gallery</button>
+      </div>
+      <div class="up-note">Saved in this browser only. To publish permanently, add the image files to the project.</div>
+    </div>
+  </div>
 </section>
 
 <div class="divider" style="max-width:1400px;margin:0 auto;"></div>
 
 <!-- ── SOCIAL MEDIA ── -->
 <section id="social" style="max-width:100%;">
+  <div class="social-bg"></div>
+  <div style="max-width:888px;margin:0 auto;background:rgba(13,19,47,0.35);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border:1px solid rgba(255,255,255,0.10);box-shadow:0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08);border-radius:32px;padding:64px 48px;">
   <div class="reveal" style="max-width:1400px;margin:0 auto;">
     <div class="section-label">Let's Connect</div>
     <h2 class="section-title">Find Me Online</h2>
@@ -1135,28 +1316,12 @@
       <span>Facebook</span>
     </a>
 
-  </div>
-</section>
-
-<div class="divider" style="max-width:1400px;margin:0 auto;"></div>
-
-<!-- ── CONTACT ── -->
-<section id="contact" style="max-width:1400px;">
-  <div class="reveal">
-    <div class="section-label">Contact</div>
-    <h2 class="section-title">Get in Touch</h2>
-    <p class="section-desc" style="margin:0 auto;">Have a project in mind? I'd love to hear about it. Drop me an email and let's create something great together.</p>
-  </div>
-  <div class="reveal" style="display:flex;justify-content:center;">
-    <a href="mailto:deepmusale@gmail.com" class="contact-card" style="text-decoration:none;color:inherit;">
-      <div class="contact-icon" style="display:flex;align-items:center;justify-content:center;width:52px;height:52px;background:rgba(176,0,65,0.1);border:1px solid rgba(176,0,65,0.25);border-radius:14px;flex-shrink:0;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#b00041" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </div>
-      <div>
-        <div class="contact-label">Email Me</div>
-        <div class="contact-email">deepmusale@gmail.com</div>
-      </div>
+    <a href="mailto:deepmusale@gmail.com" class="social-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <span>Email</span>
     </a>
+
+  </div>
   </div>
 </section>
 
@@ -1283,6 +1448,8 @@
     }
     window.addEventListener("wheel", function (e) {
       if (e.ctrlKey) return; // let pinch-zoom through
+      // Let overlays (gallery/lightbox/uploader) handle their own scrolling
+      if (e.target.closest(".gallery, .lightbox, .uploader")) return;
       e.preventDefault();
       target = clamp(target + e.deltaY);
       if (!running) { running = true; current = window.scrollY; requestAnimationFrame(loop); }
@@ -1335,8 +1502,8 @@
       { src: "assets/logos/ayurisai.jpg",         name: "AyuriSai",                    type: "Wellness & Ayurveda" },
       { src: "assets/logos/call2connect.jpg",     name: "Call2Connect",                type: "Corporate" },
       { src: "assets/logos/grait.jpg",            name: "Grait",                       type: "Technology" },
-      { src: "assets/logos/quanta.png",           name: "Quanta Advisory",             type: "Consulting" },
-      { src: "assets/logos/curious-executive.png", name: "The Curious Executive",      type: "Podcast" },
+      { src: "assets/logos/quanta.jpg",           name: "Quanta Advisory",             type: "Consulting" },
+      { src: "assets/logos/curious-executive.jpg", name: "The Curious Executive",      type: "Podcast" },
       { src: "assets/logos/kd-studios.jpg",       name: "KD Studios",                  type: "Creative Studio" }
     ] },
     events:    { title: "Events",            desc: "Event collateral, stage graphics, banners, and experiential design that captivate audiences.", thumbs: [
@@ -1349,25 +1516,236 @@
         { src: "assets/events/ciec/fb-schedule.jpg",  heading: "Schedule Announcement",       caption: "Open Qualifier and Play-Off format banner for the social countdown campaign." },
         { src: "assets/events/ciec/fb-likes.jpg",     heading: "10,000+ Likes — Thank You",   caption: "Community milestone creative celebrating 10,000+ Facebook followers." },
         { src: "assets/events/ciec/fb-bracket.jpg",   heading: "Bracket & Updates",           caption: "Tournament-updates banner driving fans to the live CIEC bracket link." },
-        { src: "assets/events/ciec/fb-winners.jpg",   heading: "Champions Announcement",      caption: "Winners reveal — Entity Esports (CS:GO) and goFigure (DOTA 2) crowned COBX Indian Esports Champions." }
+        { src: "assets/events/ciec/fb-winners.jpg",   heading: "Champions Announcement",      caption: "Winners reveal — Entity Esports (CS:GO) and goFigure (DOTA 2) crowned COBX Indian Esports Champions." },
+        { video: "https://player.vimeo.com/video/1184489089", heading: "Event Recap Film", caption: "The official COBX Indian Esports Championship aftermovie." }
       ] },
-      { src: "assets/events/cobx-masters-phase1.jpg", name: "COBX Masters — Phase 1",           type: "Esports Event" },
-      { src: "assets/events/cobx-masters-phase2.jpg", name: "COBX Masters — Phase 2",           type: "Esports Event" },
-      { src: "assets/events/nmp.jpg",                 name: "Mumbai Panthers",                  type: "Sports Event" }
+      { src: "assets/events/cobx-masters-phase1.jpg", name: "COBX Masters — Phase 1",           type: "Esports Event", gallery: [
+        { src: "assets/events/cobx-masters/01-identity.jpg", heading: "Championship Identity",   caption: "The COBX Masters crest — a metallic esports shield built for India's first international DOTA 2 & CS:GO tournament." },
+        { src: "assets/events/cobx-masters/02-banner.jpg",   heading: "Event Banner",             caption: "Hero banner announcing India's first international esports tournament with a ₹1 Crore prize pool." },
+        { src: "assets/events/cobx-masters/03-social.jpg",   heading: "Social Media Campaign",    caption: "Countdown, prize-pool, schedule and 'Did You Know?' creatives rolled out across the COBX Gaming channels." },
+        { src: "assets/events/cobx-masters/04-website.jpg",  heading: "Event Website",            caption: "Full tournament site — landing page, regional qualifiers across 10 cities, and team registration forms." },
+        { src: "assets/events/cobx-masters/05-standee.jpg",  heading: "Event Standee",            caption: "On-ground Mumbai roll-up standee with prize breakdown and a Discord-server QR code." },
+        { src: "assets/events/cobx-masters/06-merch-team.jpg", heading: "Standee, Tickets & Team", caption: "Print tickets, team jersey, and the runner-up team card from the Pune region." }
+      ] },
+      { src: "assets/events/cobx-masters-phase2.jpg", name: "COBX Masters — Phase 2",           type: "Esports Event", gallery: [
+        { video: "https://player.vimeo.com/video/1184559355", heading: "Event Recap Film", caption: "The official COBX Masters — Phase 2 aftermovie." },
+        { src: "assets/events/cobx-masters-p2/01-announcement.jpg", heading: "Event Announcement", caption: "COBX Masters Phase II main event — DOTA 2 & CS:GO, 1st–3rd March 2019." },
+        { src: "assets/events/cobx-masters-p2/02-social.jpg", heading: "Social Media Campaign", caption: "Full Instagram roll-out — tournament poster, team spotlights, day schedules, PUBG Mobile zone and Steam giveaways." },
+        { src: "assets/events/cobx-masters-p2/03-website.jpg", heading: "Event Website", caption: "Twin CS:GO and DOTA 2 tournament sites — hero, ₹1,00,000 prize pool, teams and talent line-ups." },
+        { src: "assets/events/cobx-masters-p2/05-key-visual.jpg", heading: "Merchandise & Social Board", caption: "COBX Masters brand board — jersey mockups and the live cobxgaming Instagram grid." },
+        { video: "https://player.vimeo.com/video/1209742443", heading: "Promo Film", caption: "COBX Masters — Phase 2 promotional video." },
+        { video: "https://player.vimeo.com/video/1209742446", heading: "Highlights Reel", caption: "COBX Masters — Phase 2 event highlights." },
+        { src: "assets/events/cobx-masters-p2/06-broadcast-package.jpg", heading: "Broadcast Graphics Package", caption: "Full live-stream overlay kit — match ticker, analyst-desk lower-third, and DOTA 2 / CS:GO in-game frames." },
+        { src: "assets/events/cobx-masters-p2/08-stage-design.jpg", heading: "Main Stage Design", caption: "3D render of the COBX Masters arena stage — dual LED walls, caster pods and centre-stage podium." },
+        { src: "assets/events/cobx-masters-p2/09-event-photos.jpg", heading: "Event Photos", caption: "On-ground shots from the live finals at NESCO, Mumbai — packed arena, main stage and the COBX Masters wall." }
+      ] },
+      { src: "assets/events/signify/01-roster.jpg",   name: "Signify Esports",                  type: "Esports Team", gallery: [
+        { src: "assets/events/signify/01-roster.jpg",     heading: "Team Roster",              caption: "The Signify five-man line-up — team identity built around the metallic shield monogram in the team's signature electric blue." },
+        { src: "assets/events/signify/02-banner.jpg",     heading: "Team Identity",            caption: "Social cover banner spanning both titles — Signify's CS:GO and DOTA 2 rosters under the crest." },
+        { src: "assets/events/signify/03-id-league.jpg",  heading: "iD League — vs Detonator", caption: "Match-day creative for the iD League clash against Detonator, 7th February 2019." },
+        { src: "assets/events/signify/04-cobx-masters.jpg", heading: "COBX Masters — vs Tigers", caption: "COBX Masters fixture graphic — Signify versus Tigers, 10:00 AM IST." },
+        { src: "assets/events/signify/05-esl-teaser.jpg", heading: "ESL India Premiership Teaser", caption: "'Signify Is Coming' — arrival teaser for the ESL India Premiership at Pragati Maidan, New Delhi." },
+        { src: "assets/events/signify/06-dreamhack.jpg",  heading: "DreamHack Mumbai 2018",    caption: "Achievement creative — Signify finish 2nd Runner-up at the DreamHack Mumbai Invitational 2018." }
+      ] },
+      { src: "assets/events/nmp.jpg",                 name: "Mumbai Panthers",                  type: "Sports Event", gallery: [
+        { src: "assets/events/mumbai-panthers/01-jersey.png", heading: "Team Jersey & Crest",    caption: "The North Mumbai Panthers identity — snarling panther crest and navy-and-gold match jersey for the Mumbai T20 League." },
+        { src: "assets/events/mumbai-panthers/02-social.jpg", heading: "Social Media Campaign",   caption: "Full matchday roll-out — 'Next Stop Wankhede', Season 02 finals, fixtures, Fab Fifty, Man of the Match and player stat creatives." }
+      ] }
     ] },
-    website:   { title: "Website",           desc: "Clean, intuitive UI/UX designs and prototypes built for digital-first experiences.", thumbs: [] },
-    social:    { title: "Social Media Posts", desc: "Scroll-stopping content crafted for Instagram, LinkedIn, Facebook, and beyond.", thumbs: [] },
-    brochures: { title: "Brochures",         desc: "Print and digital brochures that communicate value with elegance and clarity.", thumbs: [] },
+    website:   { title: "Website",           desc: "Clean, intuitive UI/UX designs and prototypes built for digital-first experiences.", thumbs: [
+      { src: "assets/website/full/1-ciec-full.jpg", thumb: "assets/website/1-ciec.jpg", name: "COBX Indian Esports Championship", type: "Event Website" },
+      { src: "assets/website/full/2-cobx-dota-full.jpg", thumb: "assets/website/2-cobx-s2-dota.jpg", name: "COBX Masters Phase II — DOTA 2",   type: "Event Website" },
+      { src: "assets/website/full/3-cobx-csgo-full.jpg", thumb: "assets/website/3-cobx-s2-csgo.jpg", name: "COBX Masters Phase II — CS:GO",    type: "Event Website" },
+      { src: "assets/website/full/4-route-mobile-full.jpg", thumb: "assets/website/4-route-mobile.jpg", name: "Route Mobile",                     type: "Corporate Website" },
+      { src: "assets/website/full/5-signify-full.jpg", thumb: "assets/website/5-signify.jpg",             name: "Signify Esports",                  type: "Esports Website" },
+      { src: "assets/website/full/6-signify-dota-full.jpg", thumb: "assets/website/6-signify-dota.jpg",        name: "Signify — DOTA 2",                 type: "Esports Website" },
+      { src: "assets/website/full/7-useready-full.jpg", thumb: "assets/website/7-useready.jpg",            name: "USEReady",                         type: "Corporate Website" },
+      { src: "assets/website/full/8-useready-data-for-ai-full.jpg", thumb: "assets/website/8-useready-data-for-ai.jpg", name: "USEReady — Data for AI",          type: "Corporate Website" },
+      { src: "assets/website/full/9-reportworks-full.jpg", thumb: "assets/website/9-reportworks.jpg",         name: "ReportWorks",                      type: "Product Website" },
+      { src: "assets/website/full/10-breakfast-with-agents-full.jpg", thumb: "assets/website/10-breakfast-with-agents.jpg", name: "Breakfast with Agents", type: "Event Website" },
+      { src: "assets/website/full/11-imacready-full.jpg", thumb: "assets/website/11-imacready.jpg", name: "IMACReady", type: "Corporate Website" },
+      { src: "assets/website/full/12-top10enterprise-full.jpg", thumb: "assets/website/12-top10enterprise.jpg", name: "Top10 Enterprise AI", type: "Corporate Website" }
+    ] },
+    social:    { title: "Social Media Posts", desc: "Scroll-stopping content crafted for Instagram, LinkedIn, Facebook, and beyond.", thumbs: [
+      { separator: true, heading: "COBX Masters — Phase 1", sub: "COBX Masters 2018, Phase 1 — pan-India regional qualifiers across 10 cities. Countdown, schedule and results creatives." },
+      { src: "assets/social/phase1/01-emailer.jpg", name: "10 Cities · 2 Titles · 20 Winners", type: "COBX Masters · Emailer" },
+      { src: "assets/social/phase1/02-31-days.jpg", name: "31 Days to Go — Did You Know?", type: "COBX Masters · Social" },
+      { src: "assets/social/phase1/03-8-days.jpg", name: "8 Days to Go — Chennai Region", type: "COBX Masters · Social" },
+      { src: "assets/social/phase1/04-semi-finalists.jpg", name: "Semi-Finalists in Ten Regions", type: "COBX Masters · Social" },
+      { src: "assets/social/phase1/05-ahmedabad-schedule.jpg", name: "Ahmedabad Semi-Finals Schedule", type: "COBX Masters · Social" },
+      { src: "assets/social/phase1/06-result.jpg", name: "Phase 1 Result — CS:GO", type: "COBX Masters · Social" },
+      { separator: true, heading: "COBX Masters — Phase 2", sub: "COBX Masters Phase II — the LAN main event, 1st–3rd March 2019. DOTA 2 & CS:GO announcement creatives." },
+      { src: "assets/social/phase2/01-announcement-main.jpg", name: "Phase II Main Event — DOTA 2 & CS:GO", type: "COBX Masters · Social" },
+      { src: "assets/social/phase2/02-announcement-csgo.jpg", name: "Phase II LAN Event — CS:GO", type: "COBX Masters · Social" },
+      { src: "assets/social/phase2/03-announcement-dota2.jpg", name: "Phase II LAN Event — DOTA 2", type: "COBX Masters · Social" },
+      { separator: true, heading: "COBX Indian Esports Championship (CIEC)", sub: "Season 1 — India's first international esports championship. Campaign creatives across Twitter and Facebook." },
+      { src: "assets/social/ciec/01-announcement.jpg",  name: "Tournament Announcement", type: "CIEC · Twitter" },
+      { src: "assets/social/ciec/02-prize-pool.jpg",    name: "Prize Pool",             type: "CIEC · Twitter" },
+      { src: "assets/social/ciec/03-last-day.jpg",      name: "Last Day to Register",   type: "CIEC · Facebook" },
+      { src: "assets/social/ciec/04-reg-close.jpg",     name: "Registrations Close in 5 Days", type: "CIEC · Facebook" },
+      { src: "assets/social/ciec/05-dota2-top8.jpg",    name: "DOTA 2 — Top 8 Teams",   type: "CIEC · Twitter" },
+      { src: "assets/social/ciec/06-daily-winners.jpg", name: "Daily Winners",          type: "CIEC · Twitter" },
+      { src: "assets/social/ciec/07-grand-finale.jpg",  name: "DOTA 2 Grand Finale",    type: "CIEC · Twitter" },
+      { src: "assets/social/ciec/08-dota2-winner.jpg",  name: "DOTA 2 Winner — Go Figure", type: "CIEC · Twitter" },
+      { src: "assets/social/ciec/09-winners.jpg",       name: "Championship Winners",   type: "CIEC · Banner" },
+      { separator: true, heading: "Route Mobile", sub: "Social media creatives for Route Mobile — product launches, earnings calls, global events and festive campaigns." },
+      { src: "assets/social/routemobile/01-apple-rcs-ios18.jpg",        name: "Apple Announces RCS in iOS 18", type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/02-safe-connect.jpg",           name: "Safe Connect — VoicEX",         type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/03-brand-love-loyalty.jpg",     name: "Brand Love & Loyalty",          type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/04-roubot-launch.jpg",          name: "Roubot Launch",                 type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/05-mwc-participating.jpg",      name: "MWC Barcelona — Booth CS70",    type: "Route Mobile · Event" },
+      { src: "assets/social/routemobile/06-q3-earnings-call.jpg",       name: "Q3 FY22-23 Earnings Call",      type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/07-sri-lanka-a2p.jpg",          name: "Sri Lanka A2P Partnership",     type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/08-gartner-cpaas.jpg",          name: "2022 Gartner Market Guide for CPaaS", type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/09-voice-for-bharat.jpg",       name: "Voice for Bharat — IAMAI",      type: "Route Mobile · Event" },
+      { src: "assets/social/routemobile/10-mwc-product-showcase.jpg",   name: "MWC Barcelona — Product Showcase", type: "Route Mobile · Event" },
+      { src: "assets/social/routemobile/11-q1-earnings-call.jpg",       name: "Q1 FY22-23 Earnings Call",      type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/12-mebis-2021.jpg",             name: "Middle East Banking Innovation Summit 2021", type: "Route Mobile · Event" },
+      { src: "assets/social/routemobile/13-whatsapp-business.jpg",      name: "WhatsApp Business Solution",    type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/14-rpl-2020.jpg",               name: "RPL 2020 — Premier League S5",  type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/15-chatbots-conversational-ai.jpg", name: "Chatbots to Conversational AI", type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/16-happy-dussehra.jpg",         name: "Happy Dussehra — CPaaS",        type: "Route Mobile · Social" },
+      { src: "assets/social/routemobile/17-india-mobile-congress.jpg",  name: "India Mobile Congress 2022",    type: "Route Mobile · Event" },
+      { separator: true, heading: "USEReady", sub: "Social media creatives for USEReady — Tableau's #1 global partner. Product launches, event promos, webinars, thought leadership and awareness campaigns." },
+      { src: "assets/social/useready/01-migratoriq.gif",             name: "MigratorIQ — Legacy BI Migrations", type: "USEReady · Social" },
+      { src: "assets/social/useready/02-tableau-1-partner.jpg",      name: "Tableau's #1 Global Partner",   type: "USEReady · Social" },
+      { src: "assets/social/useready/03-thought-leadership.jpg",     name: "Modern BI & Funding BI Migration", type: "USEReady · Article" },
+      { src: "assets/social/useready/04-tc2024-1day.jpg",            name: "Tableau Conference 2024 — 1 Day to Go", type: "USEReady · Event" },
+      { src: "assets/social/useready/06-gartner-summit-b.jpg",       name: "Gartner D&A Summit — Orlando",  type: "USEReady · Event" },
+      { src: "assets/social/useready/07-gartner-summit-c.jpg",       name: "Gartner D&A Summit — Booth #1348", type: "USEReady · Event" },
+      { src: "assets/social/useready/08-iaas-1day.jpg",              name: "Insights as a Service — 1 Day to Go", type: "USEReady · Event" },
+      { src: "assets/social/useready/09-iaas-invite.jpg",            name: "Insights as a Service — Mumbai", type: "USEReady · Event" },
+      { src: "assets/social/useready/10-meet-tomorrows-bi.jpg",      name: "Meet Tomorrow's BI Needs — MOM", type: "USEReady · Social" },
+      { src: "assets/social/useready/11-bi-to-ai-webinar.jpg",       name: "From BI to AI — Live Webinar",  type: "USEReady · Webinar" },
+      { src: "assets/social/useready/12-tableau-workshop.jpg",       name: "Tableau Hands-on Workshop",     type: "USEReady · Workshop" },
+      { src: "assets/social/useready/13-retire-legacy-bi.jpg",       name: "Retire Legacy BI Platforms",    type: "USEReady · Webinar" },
+      { src: "assets/social/useready/14-crg-partnership.jpg",        name: "Strategic Partnership — CRG Solutions", type: "USEReady · Social" },
+      { src: "assets/social/useready/15-rearview-mirror.jpg",        name: "Beyond the Rearview Mirror",    type: "USEReady · Article" },
+      { src: "assets/social/useready/16-pixel-perfect-snowflake.jpg", name: "Pixel Perfect for Snowflake",  type: "USEReady · Social" },
+      { src: "assets/social/useready/17-world-environment-day.jpg",  name: "World Environment Day",         type: "USEReady · Social" },
+      { src: "assets/social/useready/18-tc2023-vegas.jpg",           name: "Tableau Conference 2023 — Las Vegas", type: "USEReady · Event" }
+    ] },
+    brochures: { title: "Brochures",         desc: "Print and digital brochures that communicate value with elegance and clarity.", thumbs: [
+      { src: "assets/brochures/resha-oil.jpg",        name: "Resha Oil — Aseel Herbals",      type: "Product Brochure" },
+      { src: "assets/brochures/rolta-geospatial.jpg", name: "Enterprise Geospatial & Defense", type: "Rolta · Corporate Brochure" },
+      { src: "assets/brochures/rolta-leader.jpg",     name: "Rolta Is A Leader",              type: "Rolta · Annual Report" },
+      { src: "assets/brochures/namdeo-umaji.jpg",     name: "Namdeo Umaji Agritech",          type: "Product Catalogue" },
+      { src: "assets/brochures/ab-live-more.jpg",     name: "AB-Live — Do More with Less",    type: "Broadcast Brochure" },
+      { src: "assets/brochures/ab-live-teach.jpg",    name: "AB-Live — Reach More Teach More", type: "Broadcast Brochure" },
+      { src: "assets/brochures/monarch-virtuoso.jpg", full: "assets/brochures/monarch-virtuoso-full.jpg", name: "Monarch Virtuoso 3000 HD",       type: "Product Brochure" },
+      { src: "assets/brochures/repro-book-1.jpg",     name: "Jumble Jigsaw Activity Book",    type: "Repro · Book Design" },
+      { src: "assets/brochures/repro-book-2.jpg",     name: "Find & Colour Activity Book",    type: "Repro · Book Design" }
+    ] },
     packaging: { title: "Packaging",         desc: "Product packaging that stands out on the shelf and creates memorable unboxing moments.", thumbs: [] },
     videos:    { title: "Videos",            desc: "Motion graphics, animations, and video content designed for impact and engagement.", thumbs: [] },
-    paintings: { title: "Paintings",         desc: "Original artwork and digital paintings that explore colour, texture, and composition.", thumbs: [] },
-    sketching: { title: "Sketching",         desc: "Hand-drawn illustrations and concept sketches at the foundation of every great design.", thumbs: [] }
+    paintings: { title: "Paintings",         desc: "Original artwork and digital paintings that explore colour, texture, and composition.", thumbs: [
+      { src: "assets/paintings/01-ganapati.jpg",         name: "Ganapati Bappa Morya",  type: "Contemporary · Acrylic" },
+      { src: "assets/paintings/02-manmohini.jpg",        thumb: "assets/paintings/02-manmohini-thumb.jpg", name: "Manmohini",             type: "Figurative · Acrylic (12×16 in)" },
+      { src: "assets/paintings/03-my-princess.jpg",      name: "My Princess",           type: "Portrait · Watercolour" },
+      { src: "assets/paintings/07-bull-racing.jpg",      name: "Bull Racing",           type: "Figurative · Acrylic" },
+      { src: "assets/paintings/12-shri-ganesha.jpg",     name: "Shri Ganesha",          type: "Devotional · Watercolour (13×19 in)" },
+      { src: "assets/paintings/15-city-street.jpg",      name: "Old City Street",       type: "Cityscape · Acrylic" },
+      { src: "assets/paintings/04-palace.jpg",           name: "The Lakeside Palace",   type: "Landscape · Watercolour" },
+      { src: "assets/paintings/05-red-house.jpg",        name: "The Old Red House",     type: "Landscape · Watercolour" },
+      { src: "assets/paintings/06-forest-stream.jpg",    name: "Forest Stream",         type: "Landscape · Watercolour" },
+      { src: "assets/paintings/08-kerala-boat.jpg",      name: "Kerala Backwaters",     type: "Landscape · Watercolour" },
+      { src: "assets/paintings/09-orange-sky.jpg",       name: "Orange Sky Orchard",    type: "Landscape · Watercolour" },
+      { src: "assets/paintings/10-village-temple.jpg",   name: "Village Temple",        type: "Landscape · Watercolour" },
+      { src: "assets/paintings/11-riverside-huts.jpg",   name: "Riverside Huts",        type: "Landscape · Gouache" },
+      { src: "assets/paintings/13-village-homestead.jpg",name: "Village Homestead",     type: "Landscape · Watercolour" },
+      { src: "assets/paintings/14-village-house.jpg",    name: "The Village House",     type: "Landscape · Watercolour" }
+    ] },
+    sketching: { title: "Sketching",         desc: "Hand-drawn illustrations and concept sketches at the foundation of every great design.", thumbs: [
+      { src: "assets/sketching/incomplete-man.jpg", name: "Incomplete Man",        type: "Pencil Study" },
+      { src: "assets/sketching/old-man.jpg",        thumb: "assets/sketching/old-man-thumb.jpg", name: "Old Man",               type: "Pen · Scribble" },
+      { src: "assets/sketching/ram-hatched.jpg",    name: "Bighorn Ram",           type: "Pen · Cross-hatch" },
+      { src: "assets/sketching/sheep-scribble.jpg", name: "Ram — Scribble",        type: "Pen · Scribble" },
+      { src: "assets/sketching/portrait-colour.jpg",name: "A Warm Smile",          type: "Colour Pencil" },
+      { src: "assets/sketching/stylised-figure.jpg",name: "Stylised Figure",       type: "Pencil · Cubist" },
+      { src: "assets/sketching/stone-village.jpg",  thumb: "assets/sketching/stone-village-thumb.jpg", name: "Stone Village House",   type: "Pen & Ink" },
+      { src: "assets/sketching/street-van.jpg",     name: "Street Corner",         type: "Pen & Ink" },
+      { src: "assets/sketching/pencil-chawl.jpg",   name: "Chawl Windows",         type: "Pencil" },
+      { src: "assets/sketching/img-235774.jpg",     name: "The Old Gabled House",  type: "Pen & Ink" },
+      { src: "assets/sketching/img-329442.jpg",     name: "Morning Chores",        type: "Pen & Ink" },
+      { src: "assets/sketching/cottage.jpg",        thumb: "assets/sketching/cottage-thumb.jpg", name: "Country Cottage",       type: "Pen & Ink" },
+      { src: "assets/sketching/img-620735.jpg",     name: "Twilight Village",      type: "Colour Pencil" },
+      { src: "assets/sketching/manmohini-line.jpg", thumb: "assets/sketching/manmohini-line-thumb.jpg", name: "Manmohini — Line Study",type: "Ink Line-art" },
+      { src: "assets/sketching/dancer.jpg",         name: "The Dancer",            type: "Pencil Study" },
+      { src: "assets/sketching/movie-poster.jpg",   name: "Movie Poster Study",    type: "Pen & Ink" },
+      { src: "assets/sketching/img-400499.jpg",     name: "Portrait Trio",         type: "Pencil" },
+      { src: "assets/sketching/heritage-house.jpg", name: "Gabled Heritage House", type: "Pen & Ink" },
+      { src: "assets/sketching/standing-man.jpg",   name: "Standing Man",          type: "Pencil · Cubist" },
+      { src: "assets/sketching/scan.jpg",           name: "Woman Reading",         type: "Ink · Stylised" }
+    ] },
+    college:   { title: "College Work",       desc: "Foundation-year studies from art college — object studies, typography, campaign layouts, and detailed animal renderings.", thumbs: [
+      { src: "assets/college/A1-apple.jpg",          name: "Sliced Apple",          type: "Object Study · Watercolour" },
+      { src: "assets/college/A2-onion.jpg",          name: "Onion",                 type: "Object Study · Watercolour" },
+      { src: "assets/college/A3-flowerpacket.jpg",   name: "Flower Packet",         type: "Object Study · Watercolour" },
+      { src: "assets/college/A4-watch.jpg",          name: "Cartier Watches",       type: "Product Study · Colour Pencil" },
+      { src: "assets/college/A5-shoe-campaign.jpg",  name: "Shoe Campaign",         type: "Ad Campaign · Mixed Media" },
+      { src: "assets/college/A6-calligraphy.jpg",    name: "Book Cover — Calligraphy", type: "Typography Assignment" },
+      { src: "assets/college/A7-color-assignment.jpg", name: "Colour Assignment",   type: "Composition · Gouache" },
+      { src: "assets/college/A8-colour-key.jpg",     name: "Colour Key Study",      type: "Composition · Gouache" },
+      { src: "assets/college/A9-1-dance-festival.jpg", name: "Dance Festival",      type: "Mumbai Festival · Campaign" },
+      { src: "assets/college/A9-2-youth-festival.jpg", name: "Youth Festival",      type: "Mumbai Festival · Campaign" },
+      { src: "assets/college/A9-3-child-festival.jpg", name: "Children's Festival", type: "Mumbai Festival · Campaign" },
+      { src: "assets/college/A9-4-kite-festival.jpg", name: "Kite Festival",        type: "Mumbai Festival · Campaign" },
+      { src: "assets/college/A9-5-wine-festival.jpg", name: "Wine Festival",        type: "Mumbai Festival · Campaign" },
+      { src: "assets/college/A9-6-web-page.jpg",     name: "Festival Web Page",     type: "Mumbai Festival · UI Layout" },
+      { src: "assets/college/B1-hulk.jpg",           name: "The Hulk",              type: "Hollywood Study · Colour Pencil" },
+      { src: "assets/college/B2-robocop.jpg",        name: "RoboCop",               type: "Hollywood Study · Pencil" },
+      { src: "assets/college/B3-spider-man.jpg",     name: "Spider-Man",            type: "Hollywood Study · Acrylic" },
+      { src: "assets/college/B4-terminator.jpg",     name: "The Terminator",        type: "Hollywood Study · Pastel" },
+      { src: "assets/college/B5-monkey-1.jpg",       name: "Chimpanzee",            type: "Animal Study · Acrylic" },
+      { src: "assets/college/B6-monkey-2.jpg",       name: "Orangutan & Baby",      type: "Animal Study · Pen Stipple" },
+      { src: "assets/college/B7-monkey-3.jpg",       name: "Caged Orangutan",       type: "Animal Study · Acrylic" },
+      { src: "assets/college/B8-monkey-4.jpg",       name: "Macaque & Infant",      type: "Animal Study · Pencil" },
+      { src: "assets/college/B9-monkey-5.jpg",       name: "Langur on Branch",      type: "Animal Study · Acrylic" },
+      { src: "assets/college/B10-monkey-6.jpg",      name: "Chimp & Baby",          type: "Animal Study · Pencil" },
+      { src: "assets/college/B11-monkey-7.jpg",      name: "Baby Ape",              type: "Animal Study · Sepia" },
+      { src: "assets/college/B12-monkey-8.jpg",      name: "Standing Orangutan",    type: "Animal Study · Acrylic" },
+      { src: "assets/college/B13-monkey-9.jpg",      name: "Orangutan in Canopy",   type: "Animal Study · Watercolour" },
+      { src: "assets/college/B14-monkey-10.jpg",     name: "Macaque Pair",          type: "Animal Study · Watercolour" },
+      { src: "assets/college/B15-monkey-11.jpg",     name: "Orangutan at Water",    type: "Animal Study · Acrylic" }
+    ] }
   };
   const PLACEHOLDER_COUNT = 6;
   const phSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>';
 
+  // ── Custom (user-uploaded) portfolio items, saved in this browser ──
+  const CUSTOM_KEY = "dm_custom_portfolio_v1";
+  function loadCustom() {
+    try { return JSON.parse(localStorage.getItem(CUSTOM_KEY)) || {}; }
+    catch (e) { return {}; }
+  }
+  function saveCustom(data) {
+    try { localStorage.setItem(CUSTOM_KEY, JSON.stringify(data)); } catch (e) { alert("Storage full — could not save. Try fewer/smaller images."); }
+  }
+  function mergeCustom() {
+    const custom = loadCustom();
+    Object.keys(custom).forEach(cat => {
+      if (!CATEGORIES[cat]) return;
+      (custom[cat] || []).forEach(item => { item.__custom = true; CATEGORIES[cat].thumbs.push(item); });
+    });
+  }
+  mergeCustom();
+
   const catList  = document.getElementById("catList");
   const thumbGrid = document.getElementById("thumbGrid");
+  thumbGrid.addEventListener("mousemove", (e) => {
+    const t = e.target.closest(".thumb");
+    if (!t || !t.querySelector("img")) return;
+    const r = t.getBoundingClientRect();
+    const dx = (e.clientX - r.left) / r.width - 0.5;
+    const dy = (e.clientY - r.top) / r.height - 0.5;
+    const max = 26;
+    t.style.setProperty("--px", (-dx * max).toFixed(1) + "px");
+    t.style.setProperty("--py", (-dy * max).toFixed(1) + "px");
+  });
+  thumbGrid.addEventListener("mouseout", (e) => {
+    const t = e.target.closest(".thumb");
+    if (t) { t.style.setProperty("--px", "0px"); t.style.setProperty("--py", "0px"); }
+  });
   const catTitle = document.getElementById("catTitle");
   const catCount = document.getElementById("catCount");
   const catPanel = document.getElementById("catPanel");
@@ -1386,10 +1764,17 @@
   function showLb() {
     const it = currentItems[lbIdx];
     if (!it) return;
-    lbImg.src = it.src; lbImg.alt = it.name;
+    lbImg.src = it.full || it.src; lbImg.alt = it.name;
     lbType.textContent = it.type;
     lbName.textContent = it.name;
     lbCount.textContent = pad2(lbIdx + 1) + " / " + pad2(currentItems.length);
+    const stage = lbImg.closest(".lb-stage");
+    stage.classList.remove("scrollable");
+    stage.scrollTop = 0;
+    lbImg.onload = () => {
+      const tall = lbImg.naturalHeight / lbImg.naturalWidth > 1.4;
+      stage.classList.toggle("scrollable", tall);
+    };
   }
   function openLightbox(i) {
     lbIdx = i; showLb();
@@ -1446,7 +1831,9 @@
           '<span class="gal-item-title">' + g.heading + '</span>' +
         '</div>' +
         (g.caption ? '<div class="gal-item-cap">' + g.caption + '</div>' : '') +
-        '<img src="' + g.src + '" alt="' + g.heading + '" loading="lazy" />';
+        (g.video
+          ? '<div class="gal-video"><iframe src="' + g.video + '" title="' + g.heading + '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>'
+          : '<img src="' + g.src + '" alt="' + g.heading + '" loading="lazy" />');
       galScroll.appendChild(el);
     });
     galScroll.scrollTop = 0;
@@ -1480,9 +1867,84 @@
     else if (e.key === "ArrowLeft") stepGal(-1);
   });
 
+  // ── Uploader modal ──
+  let currentCatKey = "logos";
+  let upFiles = []; // { dataUrl, heading }
+  const uploader = document.getElementById("uploader");
+  const upEyebrow = document.getElementById("upEyebrow");
+  const upTitleEl = document.getElementById("upTitle");
+  const upName = document.getElementById("upName");
+  const upType = document.getElementById("upType");
+  const upDrop = document.getElementById("upDrop");
+  const upFile = document.getElementById("upFile");
+  const upGrid = document.getElementById("upGrid");
+  const upSave = document.getElementById("upSave");
+
+  function refreshUpSave() { upSave.disabled = !(upFiles.length && upName.value.trim()); }
+  function renderUpGrid() {
+    upGrid.innerHTML = "";
+    upFiles.forEach((f, i) => {
+      const el = document.createElement("div");
+      el.className = "up-thumb";
+      el.innerHTML = '<img src="' + f.dataUrl + '" alt="" /><button data-i="' + i + '" aria-label="Remove">×</button>';
+      el.querySelector("button").addEventListener("click", () => { upFiles.splice(i, 1); renderUpGrid(); refreshUpSave(); });
+      upGrid.appendChild(el);
+    });
+    refreshUpSave();
+  }
+  function addFiles(fileList) {
+    const imgs = [...fileList].filter(f => f.type.startsWith("image/"));
+    imgs.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => { upFiles.push({ dataUrl: e.target.result, heading: file.name.replace(/\.[^.]+$/, "") }); renderUpGrid(); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function openUploader(key) {
+    currentCatKey = key;
+    upFiles = [];
+    upName.value = ""; upType.value = "";
+    const label = (CATEGORIES[key].title || "Item").replace(/s$/, "");
+    upEyebrow.textContent = "Add to " + CATEGORIES[key].title;
+    upTitleEl.textContent = "New " + label;
+    renderUpGrid();
+    uploader.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeUploader() { uploader.classList.remove("open"); document.body.style.overflow = ""; }
+
+  upDrop.addEventListener("click", () => upFile.click());
+  upFile.addEventListener("change", e => { addFiles(e.target.files); upFile.value = ""; });
+  ["dragenter", "dragover"].forEach(ev => upDrop.addEventListener(ev, e => { e.preventDefault(); upDrop.classList.add("drag"); }));
+  ["dragleave", "drop"].forEach(ev => upDrop.addEventListener(ev, e => { e.preventDefault(); upDrop.classList.remove("drag"); }));
+  upDrop.addEventListener("drop", e => { if (e.dataTransfer.files) addFiles(e.dataTransfer.files); });
+  upName.addEventListener("input", refreshUpSave);
+  document.getElementById("upClose").addEventListener("click", closeUploader);
+  document.getElementById("upCancel").addEventListener("click", closeUploader);
+  uploader.addEventListener("click", e => { if (e.target === uploader) closeUploader(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && uploader.classList.contains("open")) closeUploader(); });
+
+  upSave.addEventListener("click", () => {
+    if (upSave.disabled) return;
+    const name = upName.value.trim();
+    const type = upType.value.trim();
+    const gallery = upFiles.map((f, k) => ({ src: f.dataUrl, heading: f.heading || (name + " " + (k + 1)), caption: "" }));
+    const item = { src: upFiles[0].dataUrl, name: name, type: type, gallery: gallery };
+    // persist
+    const custom = loadCustom();
+    (custom[currentCatKey] = custom[currentCatKey] || []).push(item);
+    saveCustom(custom);
+    // live-add
+    item.__custom = true;
+    CATEGORIES[currentCatKey].thumbs.push(item);
+    closeUploader();
+    renderCategory(currentCatKey);
+  });
+
   function renderCategory(key) {
     const c = CATEGORIES[key];
     if (!c) return;
+    currentCatKey = key;
     catTitle.textContent = c.title;
     // Show the description only inside the selected button
     catList.querySelectorAll(".cat-tab").forEach(t => {
@@ -1494,16 +1956,27 @@
     thumbGrid.innerHTML = "";
     currentItems = [];
     if (c.thumbs.length) {
-      c.thumbs.forEach((item, i) => {
+      c.thumbs.forEach((item) => {
+        if (item && item.separator) {
+          const s = document.createElement("div");
+          s.className = "thumb-section";
+          s.innerHTML = '<h3>' + item.heading + '</h3>' +
+            (item.sub ? '<p>' + item.sub + '</p>' : '') +
+            '<div class="ts-rule"></div>';
+          thumbGrid.appendChild(s);
+          return;
+        }
         const src  = typeof item === "string" ? item : item.src;
-        const name = typeof item === "string" ? (c.title + " " + (i + 1)) : item.name;
+        const thumbSrc = (typeof item === "object" && item.thumb) ? item.thumb : src;
+        const name = typeof item === "string" ? (c.title + " " + (currentItems.length + 1)) : item.name;
         const type = typeof item === "string" ? "" : (item.type || "");
-        currentItems.push({ src: encodeURI(src), name: name, type: type, gallery: (typeof item === "object" ? item.gallery : null) });
+        currentItems.push({ src: encodeURI(src), full: (typeof item === "object" && item.full) ? encodeURI(item.full) : null, name: name, type: type, gallery: (typeof item === "object" ? item.gallery : null) });
+        const lbIndex = currentItems.length - 1;
         const t = document.createElement("div");
         t.className = "thumb";
-        t.dataset.index = i;
+        t.dataset.index = lbIndex;
         t.innerHTML =
-          '<img src="' + encodeURI(src) + '" alt="' + name + '" loading="lazy" />' +
+          '<img src="' + encodeURI(thumbSrc) + '" alt="' + name + '" loading="lazy" />' +
           '<div class="thumb-cap">' +
             (type ? '<span class="thumb-type">' + type + '</span>' : '') +
             '<span class="thumb-name">' + name + '</span>' +
@@ -1514,8 +1987,8 @@
         t.addEventListener("click", (e) => {
           e.stopPropagation();
           const g = (typeof item === "object") ? item.gallery : null;
-          if (g && g.length) openGalleryAt(i);
-          else openLightbox(i);
+          if (g && g.length) openGalleryAt(lbIndex);
+          else openLightbox(lbIndex);
         });
         thumbGrid.appendChild(t);
       });
