@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Deepak Musale — Design Portfolio</title>
+  <link rel="icon" type="image/png" href="assets/dm-logo.png" />
   <style>
     /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -149,17 +150,19 @@
       font-size: 0.85rem;
       letter-spacing: 0.02em;
       text-transform: none;
-      transition: background 0.2s, color 0.2s;
+      border-left: 3px solid transparent;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
     }
     .dropdown-menu a:hover {
-      background: rgba(176,0,65,0.15);
-      color: var(--white);
+      background: linear-gradient(90deg, rgba(176,0,65,0.55), rgba(44,0,135,0.55));
+      border-left-color: var(--red);
+      color: #fff;
     }
     .dropdown-menu a .cat-icon { font-size: 1rem; }
 
     /* ── HERO / BANNER ── */
     .hero {
-      min-height: 100vh;
+      min-height: 80vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -172,10 +175,26 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background-image: url("assets/hero-banner.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      overflow: hidden;
+    }
+    .hero-scroll {
+      position: absolute; inset: 0; overflow: hidden;
+    }
+    .hero-scroll::after {
+      content: ""; position: absolute; inset: 0; z-index: 1;
+      background: rgba(0,0,0,0.20); pointer-events: none;
+    }
+    .hero-scroll-track {
+      display: flex; height: 100%; width: max-content;
+      will-change: transform;
+      animation: heroScroll 60s linear infinite;
+    }
+    .hero-scroll-track img {
+      height: 100%; width: auto; display: block; user-select: none;
+    }
+    @keyframes heroScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
     .hero-orb {
       position: absolute;
@@ -236,6 +255,7 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: #fff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
       margin-bottom: 24px;
       animation: fadeInUp 0.8s ease both;
     }
@@ -245,6 +265,7 @@
       line-height: 1.05;
       letter-spacing: -0.02em;
       margin-bottom: 12px;
+      text-shadow: 0 3px 18px rgba(0,0,0,0.55);
       animation: fadeInUp 0.8s 0.15s ease both;
     }
     .hero-title .grad {
@@ -255,7 +276,8 @@
     }
     .hero-subtitle {
       font-size: 1.15rem;
-      color: var(--muted);
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.6);
       margin-bottom: 40px;
       line-height: 1.7;
       animation: fadeInUp 0.8s 0.3s ease both;
@@ -284,15 +306,17 @@
     .btn-primary {
       background: var(--grad);
       color: var(--white);
-      box-shadow: 0 4px 30px rgba(176,0,65,0.4);
+      box-shadow: 0 4px 30px rgba(176,0,65,0.4), 0 6px 22px rgba(0,0,0,0.45);
     }
     .btn-primary:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 40px rgba(176,0,65,0.55);
+      box-shadow: 0 8px 40px rgba(176,0,65,0.55), 0 10px 30px rgba(0,0,0,0.5);
     }
     .btn-outline {
       background: transparent;
       color: var(--white);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+      box-shadow: 0 6px 22px rgba(0,0,0,0.4);
       border: 1.5px solid rgba(255,255,255,0.25);
     }
     .btn-outline:hover {
@@ -336,16 +360,18 @@
       flex-direction: column;
       align-items: center;
       gap: 8px;
-      color: var(--muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.6);
       animation: bounceDown 2s ease-in-out infinite;
     }
     .scroll-hint .arrow {
-      width: 1.5px;
+      width: 2px;
       height: 30px;
-      background: linear-gradient(to bottom, var(--muted), transparent);
+      background: linear-gradient(to bottom, #fff, transparent);
     }
     @keyframes bounceDown {
       0%,100% { transform: translateX(-50%) translateY(0); }
@@ -380,6 +406,17 @@
       line-height: 1.75;
       max-width: 520px;
     }
+    .cert-arrow:hover { filter: brightness(1.15); }
+    @media (max-width: 820px) {
+      .awards-grid { grid-template-columns: 1fr !important; gap: 36px !important; height: auto !important; }
+      .awards-photo { height: auto !important; }
+      #awards { height: auto !important; padding: 60px 5vw !important; }
+      .awards-photo img { max-width: 320px !important; }
+      .cert-arrow { width: 40px !important; height: 40px !important; }
+      .cert-prev { left: 6px !important; }
+      .cert-next { right: 6px !important; }
+      .cert-carousel { max-width: 100% !important; }
+    }
 
     /* Divider */
     .divider {
@@ -397,10 +434,10 @@
     }
     .about-stats {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(4, 1fr);
       gap: 24px;
-      max-width: 380px;
-      margin-left: auto;
+      max-width: none;
+      margin-left: 0;
     }
     .stat-card {
       background: var(--card-bg);
@@ -518,6 +555,8 @@
       transition: stroke 0.25s;
     }
     .cat-tab.active .cat-icon-wrap svg { stroke: #fff; }
+    .cat-icon-wrap svg.dots { fill: #ff2060; stroke: none; }
+    .cat-tab.active .cat-icon-wrap svg.dots { fill: #fff; stroke: none; }
 
     /* Right panel — thumbnails */
     .cat-panel {
@@ -677,6 +716,27 @@
     .lb-stage.scrollable .lb-img {
       max-height: none; width: 100%; object-fit: contain;
     }
+    .lb-video {
+      position: relative; width: 100%; max-width: 960px;
+      aspect-ratio: 16 / 9; background: #000;
+      border-radius: 10px; overflow: hidden;
+    }
+    .lb-video iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+    }
+    .thumb-play {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      pointer-events: none; z-index: 3;
+    }
+    .thumb-play span {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+      border: 1.5px solid rgba(255,255,255,0.85);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .thumb:hover .thumb-play span { transform: scale(1.12); background: rgba(162,22,72,0.85); }
+    .thumb-play svg { width: 22px; height: 22px; fill: #fff; margin-left: 3px; }
     .lb-img {
       max-width: 100%; max-height: 74vh; object-fit: contain;
       border-radius: 16px; border: 1px solid var(--card-border);
@@ -706,6 +766,20 @@
     .lb-close:hover { transform: scale(1.08); }
     @media (max-width: 860px) {
       .lb-prev { left: 1vw; } .lb-next { right: 1vw; }
+    }
+
+    /* ── IMAGE PROTECTION ── */
+    img {
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      pointer-events: auto;
     }
 
     /* ── EVENT GALLERY ── */
@@ -939,13 +1013,15 @@
       transform: translate3d(0, 0, 0);
       will-change: auto;
     }
+    .slide-left { opacity: 0; transform: translate3d(-120px, 0, 0); will-change: opacity, transform; }
+    .slide-right { opacity: 0; transform: translate3d(120px, 0, 0); will-change: opacity, transform; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .hero-content { flex-direction: column-reverse; gap: 40px; text-align: center; }
       .hero-ctas { justify-content: center; }
       .about-inner { grid-template-columns: 1fr; gap: 48px; }
-      .about-stats { order: 1; margin: 0 auto; }
+      .about-stats { order: 1; margin: 0 auto; grid-template-columns: 1fr 1fr; }
       .nav-links { display: none; }
     }
     @media (max-width: 600px) {
@@ -1087,6 +1163,7 @@
         <a href="#portfolio" data-cat="paintings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:0.6"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7.5 20.5 2 22l1.5-5.5L16.5 3.5z"/></svg> Paintings</a>
         <a href="#portfolio" data-cat="sketching"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:0.6"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg> Sketching</a>
         <a href="#portfolio" data-cat="college"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;opacity:0.6"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg> College Work</a>
+        <a href="#portfolio" data-cat="other"><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;opacity:0.6"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg> Other Creatives</a>
       </div>
     </li>
     <li><a href="#social">Connect</a></li>
@@ -1097,6 +1174,12 @@
 <!-- ── HERO ── -->
 <section id="hero" class="hero" style="max-width:100%;padding-top:72px;">
   <div class="hero-bg">
+    <div class="hero-scroll">
+      <div class="hero-scroll-track">
+        <img src="assets/banner-2.jpg" alt="" />
+        <img src="assets/banner-2.jpg" alt="" />
+      </div>
+    </div>
     <div class="hero-orb orb-1"></div>
     <div class="hero-orb orb-2"></div>
     <div class="hero-orb orb-3"></div>
@@ -1126,17 +1209,18 @@
 </section>
 
 <!-- ── ABOUT ── -->
-<section id="about" style="max-width:100%;">
-  <div class="about-inner reveal" style="max-width:1400px;margin:0 auto;">
-    <div class="about-text-block">
-      <div class="section-label">About Me</div>
-      <h2 class="section-title">Designer.<br>Storyteller.<br>Creator.</h2>
+<section id="about" style="max-width:100%;overflow-x:hidden;">
+  <div class="reveal" style="max-width:1400px;margin:0 auto 56px;text-align:center;">
+    <div class="section-label" id="about-label">About Me</div>
+    <h2 class="section-title" id="about-title" style="white-space:nowrap;width:max-content;max-width:none;position:relative;left:50%;transform:translateX(-50%);">Designer&nbsp; |&nbsp; Storyteller&nbsp; |&nbsp; Visualiser&nbsp; |&nbsp; Artist</h2>
+  </div>
+  <div class="about-inner reveal" style="max-width:960px;margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;gap:32px;">
+    <div class="about-text-block" style="align-items:center;text-align:center;">
       <p>Hi everyone, I'm <strong>Deepak Musale</strong> — Associate Director of our Creative team, and an artist and designer at heart. I hold a diploma in Commercial Art and bring over 20 years of experience in the design industry.</p>
       <p>Throughout my career, I've worked across a wide range of environments — advertising agencies, printing presses, IT companies, gaming studios, and even sports teams. Each brought a different perspective that continues to shape how I approach creative work today.</p>
       <p>Outside of work, I channel my passion into drawing and painting. I've also enjoyed teaching art, and I share my sketching work through my own creative projects online. Art isn't just my profession — it's what I return to for joy.</p>
-      <a href="#social" class="btn-primary" style="align-self:flex-start;margin-top:8px;">Start a Project</a>
     </div>
-    <div class="about-stats">
+    <div class="about-stats" id="about-stats" style="width:100%;">
       <div class="stat-card">
         <div class="stat-number">10+</div>
         <div class="stat-label">Categories of Work</div>
@@ -1154,16 +1238,17 @@
         <div class="stat-label">Happy Clients</div>
       </div>
     </div>
+    <a href="#social" class="btn-primary">Start a Project</a>
   </div>
 </section>
 
 <div class="divider" style="max-width:1400px;margin:0 auto;"></div>
 
 <!-- ── PORTFOLIO CATEGORIES ── -->
-<section id="portfolio" style="max-width:1400px;">
+<section id="portfolio" style="max-width:1400px;overflow-x:hidden;">
   <div class="categories-header reveal">
-    <div class="section-label">Portfolio</div>
-    <h2 class="section-title">Explore My Work</h2>
+    <div class="section-label" id="portfolio-label">Portfolio</div>
+    <h2 class="section-title" id="portfolio-title" style="white-space:nowrap;width:max-content;max-width:none;position:relative;left:50%;transform:translateX(-50%);">Explore My Work</h2>
     <p class="section-desc">A diverse range of creative disciplines — each project is an opportunity to solve a visual problem beautifully.</p>
   </div>
   <div class="cat-layout reveal">
@@ -1209,6 +1294,10 @@
         <span class="cat-icon-wrap"><svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg></span>
         <span class="cat-tab-text"><span class="cat-tab-label">College Work</span><span class="cat-tab-desc"></span></span>
       </button>
+      <button class="cat-tab" data-cat="other">
+        <span class="cat-icon-wrap"><svg class="dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span>
+        <span class="cat-tab-text"><span class="cat-tab-label">Other Creatives</span><span class="cat-tab-desc"></span></span>
+      </button>
     </div>
 
     <!-- Right panel (75%) — thumbnails for selected category -->
@@ -1244,6 +1333,7 @@
     <div class="lb-stage" id="lbStage">
       <button class="lb-btn lb-close" id="lbClose" aria-label="Close">×</button>
       <img class="lb-img" id="lbImg" alt="" />
+      <div class="lb-video" id="lbVideo" style="display:none"></div>
       <div class="lb-cap">
         <div class="lb-type" id="lbType"></div>
         <div class="lb-name" id="lbName"></div>
@@ -1289,9 +1379,57 @@
   </div>
 </section>
 
-<div class="divider" style="max-width:1400px;margin:0 auto;"></div>
+<!-- ── AWARDS & RECOGNITIONS ── -->
+<section id="awards" style="max-width:100%;position:relative;overflow:hidden;height:555px;display:flex;align-items:center;padding:0 5vw;">
+  <div style="position:absolute;inset:0;background:url('assets/awards-bg-2.jpg') center/cover no-repeat;pointer-events:none;"></div>
+  <div style="position:absolute;inset:0;background:rgba(9,16,52,0.62);pointer-events:none;"></div>
+  <div class="awards-grid" style="position:relative;max-width:1400px;margin:0 auto;width:100%;display:grid;grid-template-columns:0.85fr 1.15fr;gap:56px;align-items:center;height:555px;box-sizing:border-box;">
 
-<!-- ── SOCIAL MEDIA ── -->
+    <!-- LEFT: photo -->
+    <div class="awards-photo slide-left" style="display:flex;align-items:flex-end;justify-content:flex-end;height:555px;align-self:end;padding-right:0;">
+      <img src="assets/awards/dm-photo-3.png" alt="Deepak Musale holding his Star Performer award" style="width:100%;max-width:300px;height:auto;filter:drop-shadow(0 24px 48px rgba(0,0,0,0.55));margin-right:-40px;" />
+    </div>
+
+    <!-- RIGHT: title + carousel -->
+    <div class="awards-right slide-right">
+      <div class="section-label">Recognition</div>
+      <h2 class="section-title" style="margin-bottom:32px;">Awards &amp; Recognitions</h2>
+
+      <div class="cert-carousel" style="position:relative;max-width:58%;margin-left:0;">
+        <div class="cert-viewport" style="overflow:hidden;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+          <div class="cert-track" style="display:flex;transition:transform 0.7s cubic-bezier(0.65,0,0.35,1);">
+            <div class="cert-slide" style="min-width:100%;"><img class="cert-img" data-i="0" src="assets/awards/cert-1.jpg" alt="Star Performer of the Year 2021-22 — Route Mobile" style="width:100%;height:auto;display:block;cursor:zoom-in;" /></div>
+            <div class="cert-slide" style="min-width:100%;"><img class="cert-img" data-i="1" src="assets/awards/cert-2.jpg" alt="Certificate of Recognition — USEReady, Feb 2025" style="width:100%;height:auto;display:block;cursor:zoom-in;" /></div>
+            <div class="cert-slide" style="min-width:100%;"><img class="cert-img" data-i="2" src="assets/awards/cert-3.jpg" alt="Certificate of Recognition — USEReady, Sep 2025" style="width:100%;height:auto;display:block;cursor:zoom-in;" /></div>
+            <div class="cert-slide" style="min-width:100%;"><img class="cert-img" data-i="3" src="assets/awards/cert-4.jpg" alt="President's Choice Operational Excellence — USEReady Annual Award 2025" style="width:100%;height:auto;display:block;cursor:zoom-in;" /></div>
+            <div class="cert-slide" style="min-width:100%;"><img class="cert-img" data-i="4" src="assets/awards/cert-5.jpg" alt="Certificate of Recognition — USEReady, Nov 2025" style="width:100%;height:auto;display:block;cursor:zoom-in;" /></div>
+          </div>
+        </div>
+
+        <button class="cert-arrow cert-prev" aria-label="Previous certificate" style="position:absolute;top:50%;left:-14px;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:none;background:linear-gradient(135deg,#b00041,#2c0087);color:#fff;font-size:1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.45);z-index:2;">‹</button>
+        <button class="cert-arrow cert-next" aria-label="Next certificate" style="position:absolute;top:50%;right:-14px;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:none;background:linear-gradient(135deg,#b00041,#2c0087);color:#fff;font-size:1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.45);z-index:2;">›</button>
+
+        <div class="cert-dots" style="display:flex;justify-content:center;gap:10px;margin-top:22px;">
+          <button class="cert-dot" data-i="0" aria-label="Go to certificate 1" style="width:10px;height:10px;border-radius:50%;border:none;padding:0;cursor:pointer;background:rgba(255,255,255,0.35);transition:background 0.3s,width 0.3s;"></button>
+          <button class="cert-dot" data-i="1" aria-label="Go to certificate 2" style="width:10px;height:10px;border-radius:50%;border:none;padding:0;cursor:pointer;background:rgba(255,255,255,0.35);transition:background 0.3s,width 0.3s;"></button>
+          <button class="cert-dot" data-i="2" aria-label="Go to certificate 3" style="width:10px;height:10px;border-radius:50%;border:none;padding:0;cursor:pointer;background:rgba(255,255,255,0.35);transition:background 0.3s,width 0.3s;"></button>
+          <button class="cert-dot" data-i="3" aria-label="Go to certificate 4" style="width:10px;height:10px;border-radius:50%;border:none;padding:0;cursor:pointer;background:rgba(255,255,255,0.35);transition:background 0.3s,width 0.3s;"></button>
+          <button class="cert-dot" data-i="4" aria-label="Go to certificate 5" style="width:10px;height:10px;border-radius:50%;border:none;padding:0;cursor:pointer;background:rgba(255,255,255,0.35);transition:background 0.3s,width 0.3s;"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CERTIFICATE LIGHTBOX ── -->
+<div id="cert-lightbox" style="position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(6,10,30,0.9);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:5vh 6vw;">
+  <button id="lb-close" aria-label="Close" style="position:absolute;top:24px;right:28px;width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,0.12);color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+  <button id="lb-prev" aria-label="Previous" style="position:absolute;top:50%;left:3vw;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;border:none;background:linear-gradient(135deg,#b00041,#2c0087);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,0,0,0.5);">‹</button>
+  <img id="lb-img" alt="" style="max-width:100%;max-height:90vh;width:auto;height:auto;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,0.6);" />
+  <button id="lb-next" aria-label="Next" style="position:absolute;top:50%;right:3vw;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;border:none;background:linear-gradient(135deg,#b00041,#2c0087);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,0,0,0.5);">›</button>
+</div>
+
+<div class="divider" style="max-width:1400px;margin:0 auto;"></div>
 <section id="social" style="max-width:100%;">
   <div class="social-bg"></div>
   <div style="max-width:888px;margin:0 auto;background:rgba(13,19,47,0.35);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border:1px solid rgba(255,255,255,0.10);box-shadow:0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08);border-radius:32px;padding:64px 48px;">
@@ -1357,73 +1495,57 @@
     const css = document.createElement("style");
     css.textContent = `
       * { cursor: none !important; }
-      .cursor-dot, .cursor-ring {
+      .cursor-invert {
         position: fixed;
         top: 0; left: 0;
+        width: 34px; height: 34px;
+        margin: -17px 0 0 -17px;
+        border-radius: 50%;
+        background: #fff;
+        mix-blend-mode: difference;
         pointer-events: none;
         z-index: 9999;
-        transform: translate(-50%, -50%);
         will-change: transform;
+        transition: width 0.22s ease, height 0.22s ease, margin 0.22s ease;
       }
-      .cursor-dot {
-        width: 8px; height: 8px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #b00041, #2c0087);
-        box-shadow: 0 0 12px rgba(176,0,65,0.8);
-      }
-      .cursor-ring {
-        width: 38px; height: 38px;
-        border-radius: 50%;
-        border: 1.5px solid rgba(255,255,255,0.45);
-        transition: width 0.25s ease, height 0.25s ease,
-                    border-color 0.25s ease, background 0.25s ease;
-      }
-      .cursor-ring.hover {
-        width: 64px; height: 64px;
-        border-color: rgba(176,0,65,0.9);
-        background: radial-gradient(circle, rgba(176,0,65,0.12), transparent 70%);
-      }
-      .cursor-ring.click { width: 28px; height: 28px; }
+      .cursor-invert.hover { width: 54px; height: 54px; margin: -27px 0 0 -27px; }
+      .cursor-invert.click { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
     `;
     document.head.appendChild(css);
 
-    // Create elements
+    // Create element
     const dot = document.createElement("div");
-    dot.className = "cursor-dot";
-    const ring = document.createElement("div");
-    ring.className = "cursor-ring";
+    dot.className = "cursor-invert";
     document.body.appendChild(dot);
-    document.body.appendChild(ring);
 
     let mx = window.innerWidth / 2, my = window.innerHeight / 2;
     let rx = mx, ry = my;
 
     window.addEventListener("mousemove", function (e) {
       mx = e.clientX; my = e.clientY;
-      dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
     });
 
-    // Smooth trailing ring
+    // Smooth trailing
     (function animate() {
-      rx += (mx - rx) * 0.18;
-      ry += (my - ry) * 0.18;
-      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+      rx += (mx - rx) * 0.28;
+      ry += (my - ry) * 0.28;
+      dot.style.transform = `translate(${rx}px, ${ry}px)`;
       requestAnimationFrame(animate);
     })();
 
-    // Grow ring over interactive elements
+    // Grow over interactive elements
     document.addEventListener("mouseover", function (e) {
-      if (e.target.closest("a, button, .category-card, .social-card, .contact-card, [onclick]")) {
-        ring.classList.add("hover");
+      if (e.target.closest("a, button, .category-card, .social-card, .contact-card, .cat-tab, .thumb, [onclick]")) {
+        dot.classList.add("hover");
       }
     });
     document.addEventListener("mouseout", function (e) {
-      if (e.target.closest("a, button, .category-card, .social-card, .contact-card, [onclick]")) {
-        ring.classList.remove("hover");
+      if (e.target.closest("a, button, .category-card, .social-card, .contact-card, .cat-tab, .thumb, [onclick]")) {
+        dot.classList.remove("hover");
       }
     });
-    document.addEventListener("mousedown", () => ring.classList.add("click"));
-    document.addEventListener("mouseup", () => ring.classList.remove("click"));
+    document.addEventListener("mousedown", () => dot.classList.add("click"));
+    document.addEventListener("mouseup", () => dot.classList.remove("click"));
   })();
 
   // ── Momentum smooth scroll (desktop wheel) ──
@@ -1459,8 +1581,34 @@
     window.addEventListener("scroll", function () {
       if (!running) { target = window.scrollY; current = window.scrollY; }
     }, { passive: true });
+  })();
 
-    // Route in-page anchor links through the momentum target
+  // ── Super-smooth in-page anchor scrolling (all devices) ──
+  (function () {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const NAV_OFFSET = 76;
+    let animating = false;
+    function easeInOutCubic(p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; }
+    function smoothTo(destY) {
+      const startY = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      destY = Math.max(0, Math.min(destY, max));
+      const dist = destY - startY;
+      if (Math.abs(dist) < 2) return;
+      if (reduce) { window.scrollTo(0, destY); return; }
+      const dur = Math.max(650, Math.min(1300, Math.abs(dist) * 0.7));
+      const t0 = performance.now();
+      animating = true;
+      (function step(now) {
+        const p = Math.min(1, (now - t0) / dur);
+        window.scrollTo(0, startY + dist * easeInOutCubic(p));
+        if (p < 1 && animating) requestAnimationFrame(step);
+        else animating = false;
+      })(t0);
+    }
+    // cancel programmatic scroll if the user grabs the wheel/touch
+    ["wheel", "touchstart"].forEach(ev =>
+      window.addEventListener(ev, () => { animating = false; }, { passive: true }));
     document.addEventListener("click", function (e) {
       const a = e.target.closest('a[href^="#"]');
       if (!a) return;
@@ -1469,8 +1617,7 @@
       const el = document.querySelector(id);
       if (!el) return;
       e.preventDefault();
-      target = clamp(el.getBoundingClientRect().top + window.scrollY);
-      if (!running) { running = true; current = window.scrollY; requestAnimationFrame(loop); }
+      smoothTo(el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET);
     });
   })();
 
@@ -1485,6 +1632,86 @@
     });
   }, { threshold: 0.12 });
   revealEls.forEach(el => observer.observe(el));
+
+  // ── Scroll-linked slide for Awards ──
+  (function () {
+    const sec = document.getElementById('awards');
+    const left = sec && sec.querySelector('.slide-left');
+    const right = sec && sec.querySelector('.slide-right');
+    if (!sec || !left || !right) return;
+    let ticking = false;
+    function update() {
+      ticking = false;
+      const r = sec.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // progress 0 when section top hits bottom of viewport, 1 when section is centered
+      let p = (vh - r.top) / (vh * 0.75);
+      p = Math.max(0, Math.min(1, p));
+      const eased = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      left.style.opacity = eased;
+      right.style.opacity = eased;
+      left.style.transform = 'translate3d(' + (-120 * (1 - eased)) + 'px,0,0)';
+      right.style.transform = 'translate3d(' + (120 * (1 - eased)) + 'px,0,0)';
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  })();
+
+  // ── Scroll-linked letter-spacing for section headers ──
+  function spacingScrub(titleId, labelId, labelRest) {
+    const t = document.getElementById(titleId);
+    const lab = labelId ? document.getElementById(labelId) : null;
+    if (!t) return;
+    let ticking = false;
+    function update() {
+      ticking = false;
+      const r = t.getBoundingClientRect();
+      const vh = window.innerHeight;
+      let p = (vh - r.top) / (vh * 0.55);
+      p = Math.max(0, Math.min(1, p));
+      const eased = 1 - Math.pow(1 - p, 3);
+      t.style.letterSpacing = ((1 - eased) * 0.28).toFixed(4) + 'em';
+      t.style.opacity = eased.toFixed(3);
+      if (lab) {
+        lab.style.letterSpacing = (labelRest + (1 - eased) * 0.6).toFixed(4) + 'em';
+        lab.style.opacity = eased.toFixed(3);
+      }
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  }
+  spacingScrub('about-title', 'about-label', 0.14);
+  spacingScrub('portfolio-title', 'portfolio-label', 0.14);
+
+  // ── Scroll-linked stagger reveal for About stat cards ──
+  (function () {
+    const wrap = document.getElementById('about-stats');
+    if (!wrap) return;
+    const cards = Array.from(wrap.children);
+    cards.forEach(c => { c.style.willChange = 'opacity, transform'; });
+    let ticking = false;
+    function update() {
+      ticking = false;
+      const r = wrap.getBoundingClientRect();
+      const vh = window.innerHeight;
+      let p = (vh - r.top) / (vh * 0.5);
+      p = Math.max(0, Math.min(1, p));
+      cards.forEach((c, i) => {
+        const local = Math.max(0, Math.min(1, (p - i * 0.12) / 0.6));
+        const eased = 1 - Math.pow(1 - local, 3);
+        c.style.opacity = eased.toFixed(3);
+        c.style.transform = 'translate3d(0,' + (30 * (1 - eased)).toFixed(1) + 'px,0)';
+      });
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  })();
 
   // ── Portfolio: category → thumbnails ──
   // To show real work, drop image files in assets/ and list their paths in `thumbs`.
@@ -1636,8 +1863,29 @@
       { src: "assets/brochures/repro-book-1.jpg",     name: "Jumble Jigsaw Activity Book",    type: "Repro · Book Design" },
       { src: "assets/brochures/repro-book-2.jpg",     name: "Find & Colour Activity Book",    type: "Repro · Book Design" }
     ] },
-    packaging: { title: "Packaging",         desc: "Product packaging that stands out on the shelf and creates memorable unboxing moments.", thumbs: [] },
-    videos:    { title: "Videos",            desc: "Motion graphics, animations, and video content designed for impact and engagement.", thumbs: [] },
+    packaging: { title: "Packaging",         desc: "Product packaging that stands out on the shelf and creates memorable unboxing moments.", thumbs: [
+      { src: "assets/packaging/prime-tomato-ketchup.jpg",     name: "Prime Tomato Ketchup",          type: "Prime Agro · Bottle & Label" },
+      { src: "assets/packaging/natural-choice-vegetables.jpg", name: "Indian Farm Fresh Vegetables",  type: "Natural Choice · Carton" },
+      { src: "assets/packaging/nutribake-toast.jpg",          name: "NutriiBake Toast Range",        type: "Om Bakery · Carton" },
+      { src: "assets/packaging/punjab-maratha-pouches.jpg",   name: "Punjab Maratha — Frozen Range", type: "Pouch Packaging" },
+      { src: "assets/packaging/punjab-maratha-designs.jpg",   name: "Punjab Maratha — Pack Designs", type: "Label Designs" },
+      { src: "assets/packaging/arya-cashew.jpg",              name: "Arya Cashew Nuts",              type: "Bahalkar Group · Pouch" },
+      { src: "assets/packaging/zantyes-cashew.jpg",           name: "Zantye's Cashew Nuts",          type: "Pouch Packaging" },
+      { src: "assets/packaging/garden-namkeen.jpg",           name: "Garden & Utsav Namkeen",        type: "Snack Pouch Range" },
+      { src: "assets/packaging/chitale-bandhu.jpg",           name: "Chitale Bandhu Chivda Range",   type: "Snack Pouch Range" },
+      { src: "assets/packaging/santulan-chilli.jpg",          name: "Santulan Chilli Powder",        type: "Spice Sachet" },
+      { src: "assets/packaging/kusum-coriander-thumb.jpg",   name: "Kusum Coriander Powder",        type: "Masala · Bag Packaging" },
+      { src: "assets/packaging/mm-kesar-lassi-thumb.jpg",    name: "MM Kesar Lassi",                type: "Cup & Label Design" },
+      { src: "assets/packaging/santulan-ayurveda.jpg",        name: "Santulan Ayurveda Range",       type: "Ayurvedic Product Pouches" },
+      { src: "assets/packaging/resha-ad.jpg",                 name: "Resha Oil — Worried Bull",      type: "Point-of-Sale Ad" }
+    ] },
+    videos:    { title: "Videos",            desc: "Motion graphics, animations, and video content designed for impact and engagement.", thumbs: [
+      { video: "1209742446", name: "Showreel", type: "Vimeo · Motion" },
+      { video: "1209742443", name: "Motion Piece", type: "Vimeo · Motion" },
+      { video: "1184559355", name: "Motion Piece", type: "Vimeo · Motion" },
+      { video: "1213195780", name: "Motion Piece", type: "Vimeo · Motion" },
+      { video: "1213196096", name: "Motion Piece", type: "Vimeo · Motion" }
+    ] },
     paintings: { title: "Paintings",         desc: "Original artwork and digital paintings that explore colour, texture, and composition.", thumbs: [
       { src: "assets/paintings/01-ganapati.jpg",         name: "Ganapati Bappa Morya",  type: "Contemporary · Acrylic" },
       { src: "assets/paintings/02-manmohini.jpg",        thumb: "assets/paintings/02-manmohini-thumb.jpg", name: "Manmohini",             type: "Figurative · Acrylic (12×16 in)" },
@@ -1707,6 +1955,19 @@
       { src: "assets/college/B13-monkey-9.jpg",      name: "Orangutan in Canopy",   type: "Animal Study · Watercolour" },
       { src: "assets/college/B14-monkey-10.jpg",     name: "Macaque Pair",          type: "Animal Study · Watercolour" },
       { src: "assets/college/B15-monkey-11.jpg",     name: "Orangutan at Water",    type: "Animal Study · Acrylic" }
+    ] },
+    other:     { title: "Other Creatives",     desc: "A mix of standout work that doesn't fit a single box — experiments, one-offs, and creative side projects.", thumbs: [
+      { separator: true, heading: "3D Creatives", sub: "TV studio and interior set design — I visualised each set and made the sketches, then guided the 3D team to build the final realistic renders." },
+      { src: "assets/other/3d/gameshow-process.jpg", name: "Game Show Set — Concept to 3D", type: "Set Design · Process" },
+      { src: "assets/other/3d/gameshow-stage.jpg",   name: "Game Show Stage",              type: "TV Set · 3D Render" },
+      { src: "assets/other/3d/news-studio.jpg",      name: "News Studio",                 type: "TV Set · 3D Render" },
+      { src: "assets/other/3d/sports-studio.jpg",    name: "Sports Studio — Concept",     type: "Set Design · Process" },
+      { src: "assets/other/3d/living-set.jpg",       name: "Living Room Set",             type: "Set Design · Process" },
+      { src: "assets/other/3d/drawing-room.jpg",     name: "Classical Drawing Room",      type: "Set Design · Process" },
+      { src: "assets/other/3d/boardroom.jpg",        name: "Boardroom",                   type: "Set Design · Process" },
+      { src: "assets/other/3d/office-reception.jpg", name: "Office Reception",            type: "Set Design · Process" },
+      { src: "assets/other/3d/exhibition-stall.jpg", name: "Exhibition Stall",            type: "3D Render" },
+      { src: "assets/other/3d/scifi-corridor.jpg",   name: "Sci-Fi Corridor",             type: "Environment · 3D Render" }
     ] }
   };
   const PLACEHOLDER_COUNT = 6;
@@ -1757,6 +2018,7 @@
   let lbOpenTimer = null;
   const lightbox = document.getElementById("lightbox");
   const lbImg = document.getElementById("lbImg");
+  const lbVideo = document.getElementById("lbVideo");
   const lbType = document.getElementById("lbType");
   const lbName = document.getElementById("lbName");
   const lbCount = document.getElementById("lbCount");
@@ -1764,11 +2026,23 @@
   function showLb() {
     const it = currentItems[lbIdx];
     if (!it) return;
-    lbImg.src = it.full || it.src; lbImg.alt = it.name;
+    const stage = lbImg.closest(".lb-stage");
     lbType.textContent = it.type;
     lbName.textContent = it.name;
     lbCount.textContent = pad2(lbIdx + 1) + " / " + pad2(currentItems.length);
-    const stage = lbImg.closest(".lb-stage");
+    if (it.video) {
+      lbImg.style.display = "none";
+      lbVideo.style.display = "block";
+      lbVideo.innerHTML = '<iframe src="https://player.vimeo.com/video/' + it.video +
+        '?autoplay=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+      stage.classList.remove("scrollable");
+      stage.scrollTop = 0;
+      return;
+    }
+    lbVideo.style.display = "none";
+    lbVideo.innerHTML = "";
+    lbImg.style.display = "";
+    lbImg.src = it.full || it.src; lbImg.alt = it.name;
     stage.classList.remove("scrollable");
     stage.scrollTop = 0;
     lbImg.onload = () => {
@@ -1788,6 +2062,8 @@
   function closeLightbox() {
     lightbox.classList.remove("open");
     document.body.style.overflow = "";
+    lbVideo.innerHTML = "";
+    lbVideo.style.display = "none";
   }
   function stepLb(d) {
     if (lbJustOpened) return;
@@ -1967,16 +2243,18 @@
           return;
         }
         const src  = typeof item === "string" ? item : item.src;
-        const thumbSrc = (typeof item === "object" && item.thumb) ? item.thumb : src;
+        const isVideo = (typeof item === "object" && item.video);
+        const posterSrc = isVideo ? (item.thumb || ("https://vumbnail.com/" + item.video + ".jpg")) : ((typeof item === "object" && item.thumb) ? item.thumb : src);
         const name = typeof item === "string" ? (c.title + " " + (currentItems.length + 1)) : item.name;
         const type = typeof item === "string" ? "" : (item.type || "");
-        currentItems.push({ src: encodeURI(src), full: (typeof item === "object" && item.full) ? encodeURI(item.full) : null, name: name, type: type, gallery: (typeof item === "object" ? item.gallery : null) });
+        currentItems.push({ src: encodeURI(src || posterSrc), full: (typeof item === "object" && item.full) ? encodeURI(item.full) : null, video: isVideo ? item.video : null, name: name, type: type, gallery: (typeof item === "object" ? item.gallery : null) });
         const lbIndex = currentItems.length - 1;
         const t = document.createElement("div");
         t.className = "thumb";
         t.dataset.index = lbIndex;
         t.innerHTML =
-          '<img src="' + encodeURI(thumbSrc) + '" alt="' + name + '" loading="lazy" />' +
+          '<img src="' + encodeURI(posterSrc) + '" alt="' + name + '" loading="lazy" />' +
+          (isVideo ? '<div class="thumb-play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>' : '') +
           '<div class="thumb-cap">' +
             (type ? '<span class="thumb-type">' + type + '</span>' : '') +
             '<span class="thumb-name">' + name + '</span>' +
@@ -2011,6 +2289,21 @@
       catList.querySelectorAll(".cat-tab").forEach(t => t.classList.remove("active"));
       tab.classList.add("active");
       renderCategory(tab.dataset.cat);
+      const layout = document.querySelector(".cat-layout");
+      if (layout) {
+        const destY = Math.max(0, layout.getBoundingClientRect().top + window.scrollY - 80);
+        const startY = window.scrollY;
+        const dist = destY - startY;
+        if (Math.abs(dist) > 2) {
+          const dur = 1100, t0 = performance.now();
+          const ease = p => 1 - Math.pow(1 - p, 3);
+          (function step(now) {
+            const p = Math.min(1, (now - t0) / dur);
+            window.scrollTo(0, startY + dist * ease(p));
+            if (p < 1) requestAnimationFrame(step);
+          })(t0);
+        }
+      }
     });
   });
   renderCategory("logos");
@@ -2028,5 +2321,69 @@
 </script>
 
 
+  <script>
+    /* ── Awards certificate carousel ── */
+    (function () {
+      const track = document.querySelector('.cert-track');
+      if (!track) return;
+      const slides = track.querySelectorAll('.cert-slide');
+      const dots = document.querySelectorAll('.cert-dot');
+      const total = slides.length;
+      let i = 0, timer = null;
+      function go(n) {
+        i = (n + total) % total;
+        track.style.transform = 'translateX(-' + (i * 100) + '%)';
+        dots.forEach((d, k) => {
+          d.style.background = k === i ? 'linear-gradient(135deg,#b00041,#2c0087)' : 'rgba(255,255,255,0.35)';
+          d.style.width = k === i ? '26px' : '10px';
+          d.style.borderRadius = k === i ? '5px' : '50%';
+        });
+      }
+      function start() { stop(); timer = setInterval(() => go(i + 1), 5000); }
+      function stop() { if (timer) clearInterval(timer); }
+      document.querySelector('.cert-next').addEventListener('click', () => { go(i + 1); start(); });
+      document.querySelector('.cert-prev').addEventListener('click', () => { go(i - 1); start(); });
+      dots.forEach(d => d.addEventListener('click', () => { go(+d.dataset.i); start(); }));
+      const carousel = document.querySelector('.cert-carousel');
+      carousel.addEventListener('mouseenter', stop);
+      carousel.addEventListener('mouseleave', start);
+
+      /* Lightbox */
+      const lb = document.getElementById('cert-lightbox');
+      const lbImg = document.getElementById('lb-img');
+      const imgs = Array.from(document.querySelectorAll('.cert-img'));
+      let lbI = 0;
+      function showLb(n) {
+        lbI = (n + imgs.length) % imgs.length;
+        lbImg.src = imgs[lbI].src;
+        lbImg.alt = imgs[lbI].alt;
+      }
+      function openLb(n) { showLb(n); lb.style.display = 'flex'; document.body.style.overflow = 'hidden'; stop(); }
+      function closeLb() { lb.style.display = 'none'; document.body.style.overflow = ''; start(); }
+      imgs.forEach(img => img.addEventListener('click', () => openLb(+img.dataset.i)));
+      document.getElementById('lb-next').addEventListener('click', e => { e.stopPropagation(); showLb(lbI + 1); });
+      document.getElementById('lb-prev').addEventListener('click', e => { e.stopPropagation(); showLb(lbI - 1); });
+      document.getElementById('lb-close').addEventListener('click', closeLb);
+      lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+      document.addEventListener('keydown', e => {
+        if (lb.style.display !== 'flex') return;
+        if (e.key === 'Escape') closeLb();
+        else if (e.key === 'ArrowRight') showLb(lbI + 1);
+        else if (e.key === 'ArrowLeft') showLb(lbI - 1);
+      });
+
+      go(0); start();
+    })();
+  </script>
+
+
+  <script>
+    document.addEventListener('contextmenu', function (e) {
+      if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+    });
+    document.addEventListener('dragstart', function (e) {
+      if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+    });
+  </script>
 </body>
 </html>
